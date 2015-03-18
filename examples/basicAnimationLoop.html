@@ -33,22 +33,11 @@ function init() {
     requestAnimationFrame(draw, document.body);
   }
 
-  function onClick(event) {
-    var targetX = rect.x + 100;
-    if (targetX >= canvas.width - 50) {
-      targetX = 50;
-    }
-    anim(rect).to({x : targetX}, 1, Timeline.Easing.Cubic.EaseOut);
-  }
+  Timeline.getGlobalInstance().loop(2); //loop forever
 
-  function onDoubleClick(event) {
-    var targetRotation = rect.rotation + Math.PI*2;
-    anim(rect).to({rotation : targetRotation}, 1, Timeline.Easing.Cubic.EaseOut);
-    event.preventDefault();
-  }
-
-  canvas.addEventListener("click", onClick, false);
-  canvas.addEventListener("dblclick", onDoubleClick, false);
+  anim(rect).to({x:50, rotation:0}, 0).to({x:200, rotation:Math.PI*2}, 2, Timeline.Easing.Cubic.EaseOut)
+  .onStart(function() { console.log('go!'); })
+  .onEnd(function() { console.log('done!'); });
 
   draw();
 }
@@ -58,9 +47,7 @@ window.onload = init;
 </script>
 </head>
 <body>
-  <h1>Timeline.js - Animation on event</h1>
-  Click the rectangle once to make it move. <br/>
-  Double click to make it move and spin. <br/><br/>
+  <h1>Timeline.js - Basic Animation</h1>
   <canvas id="canvas" width="600" height="300" style="border: 1px solid black;"></canvas>
 </body>
 </html>
